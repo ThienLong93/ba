@@ -1,0 +1,33 @@
+{% extends "main/base_generic.html" %}
+
+{% block content %}
+
+<div class="col-md-3" id="crawling-status"></div>
+<div class="col-md-6" id="target-site">            
+    <form action="">
+        {% csrf_token %}                 
+        <label for="basic-url">Your Scraping Site:</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">http://</span>
+            </div>
+            <input value="{{originurl}}" type="text" name="target" id="iframe-nav" class="form-control" aria-describedby="basic-addon3" placeholder="www.example.com">            
+        </div>                      
+        <button id="iframe-search" class="btn btn-primary" type="submit" value="Search">Search</button>                      
+    </form>
+    <div class="border border-primary rounded embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" id="targetsite" src="{{url}}"></iframe>
+    </div>                                                                
+</div>
+<div class="col-md-3" id="results">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <p>Das gecrawlte Element: <span id="crawl-selector"></span></p>
+            <p id="crawl-text"></p>
+            <button class="btn btn-primary" id="scrapyBTN">Ähnliche Daten ziehen</button>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "main/base_generic.html" %} 
+
+{% block content %}
+<div class="container col-10">
+
+    <h1 class="font-weight-normal text-center">Intuitiver Scraper</h1>
+    <p class="text-center">
+        <i>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+            aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+            no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+            sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
+            et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+            dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+            ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+            rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        </i>
+    </p>
+    <h2 class="font-weight-normal text-center">Beispiel:</h2>
+    <main role="main" class="row">
+        <form action="/" class="col-12" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">URL</span>
+                </div>
+                <input type="text" id="iframe-nav" value="{{url}}" class="form-control" placeholder="Crawling Site" name="iframe-nav" required autofocus />
+                <div class="input-group-append">
+                    <button class="btn btn-lg btn-primary btn-block" id="iframe-search" type="submit">Search</button>
+                </div>
+            </div>
+        </form>        
+        <div class="border border-primary rounded embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" id="targetsite" src="{{default_page}}"></iframe>
+        </div>        
+    </main>
+</div>
+<div class="container col-2" id="status" pid="{{pid}}">    
+    <div class="container" style="display:none;">
+        <div class="row">
+            <button class="btn btn-lg btn-primary btn-block" id="exclusive-btn">Exclusive same elements</button>
+            <button class="btn btn-lg btn-primary btn-block" id="similar-btn">Similar Elements</button>
+        </div>
+        <h2 class="font-weight-normal text-center"></h2>
+        <p>Text: <span id="scraping-element"></span></p>
+        <p>Selector: <span id="scraping-selector"></span></p>
+        <p>URL: <span id="scraping-url"></span></p>
+        <p>HOST: <span id="scraping-host"></span></p>
+        <div class="row">
+            <button class="btn btn-lg btn-primary btn-block" id="scrapyBTN">Begin crawl</button>            
+        </div>
+    </div>    
+</div>
+{% endblock %}
