@@ -24,7 +24,7 @@ import datetime
 import re
 
 chrome_options = Options()
-chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_SHIM')
+chrome_options.binary_location = os.environ.get('../drivers/chromedriver.exe')
 chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--headless')
@@ -80,8 +80,7 @@ s3      = boto3.resource('s3')
 # Create your views here.
 def index(request):            
 
-    pid = str(uuid.uuid4())
-    print("PID: " + pid)
+    pid = str(uuid.uuid4())    
     ScrapyTask.objects.create(pid=pid)
     
     url = request.POST.get('iframe-nav')

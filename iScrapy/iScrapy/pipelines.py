@@ -15,7 +15,8 @@ import json
 
 class URLTextPipeline(object):
     def open_spider(self, spider):
-        self.file = open('{0}.json'.format(str(uuid.uuid4())), 'w+')
+        #self.file = open('{0}.json'.format(str(uuid.uuid4())), 'w+')
+        self.file = open('results/{0}.json'.format(str(uuid.uuid4())), 'w+')
 
     def close_spider(self, spider):
         self.file.close()

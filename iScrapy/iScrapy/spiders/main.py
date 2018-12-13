@@ -25,7 +25,7 @@ class ScrapingSpider(scrapy.Spider):
     def parse(self, response):                
         il = ItemLoader( item=URLText(), response=response )
         il.add_value( 'url', response.url )
-        il.add_xpath( 'text', self.selector )        
+        il.add_css( 'text', self.selector )        
 
         for link in LxmlLinkExtractor(allow=self.allowed_domains,deny = ()).extract_links(response):                    
             yield response.follow( link.url, callback=self.parse )                  

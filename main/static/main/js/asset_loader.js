@@ -37,7 +37,7 @@ function getCookie(name) {
 // ********************************************************************************************* //
 
 /**
- * convert all stylesheets to absolute urls
+ * convert all relative paths of a linktype to absolute paths
  */
 Links.convertLinksToAbsolute = function(p_linktype) {    
     var c_host_abs  = document.domain;
@@ -55,6 +55,7 @@ Links.convertLinksToAbsolute = function(p_linktype) {
     console.log("Hostname of target: " + d_host);     
 
     // determine type of links
+    
     if (p_linktype === "stylesheets")
         var linkscol  = document.getElementsByTagName("link"); // get stylesheets
     else if(p_linktype === "scripts") {    
@@ -65,6 +66,8 @@ Links.convertLinksToAbsolute = function(p_linktype) {
         var linkscol  = document.getElementsByTagName("img"); // get images
         link_atr = false;
     }
+    else if(p_linktype === "hyperlinks")
+        var linkscol  = document.getElementsByTagName("a"); // get hyperlinks        
     else // not supported yet
         var linkscol  = document.links; // get all embedded links            
     
@@ -106,6 +109,7 @@ Links.init = function() {
     this.convertLinksToAbsolute("stylesheets");
     this.convertLinksToAbsolute("scripts");
     this.convertLinksToAbsolute("images");
+    this.convertLinksToAbsolute("hyperlinks");
     console.log("Ending transformation of links");
 }
 

@@ -174,8 +174,84 @@ var xpathCrawl = function(e) {
 }
 
 
-var simCrawl = function(e) {
-    console.log(Css.getCssSelector(this));
+/**
+ * generate a simalar selector for the element
+ * @param {*} e 
+ */
+var simCrawl = function(e) {    
+    e.preventDefault();    
+    var url      = document.body.getAttribute('host');
+    var crawltext = this.innerText;
+    if (crawltext !== "") {    
+        parent.document.getElementById('scraping-element').innerText = this.innerText;
+        parent.document.getElementById('scrapyBTN').removeAttribute("disabled");        
+    }
+    else {
+        parent.document.getElementById('scraping-element').innerText = "No text available for crawling";        
+        parent.document.getElementById('scrapyBTN').setAttribute("disabled", "disabled");        
+    }            
+    parent.document.getElementById('scraping-url').innerText = url;
+    parent.document.getElementById('scraping-host').innerText = document.body.getAttribute("host");
+
+    var tagname = this.tagName;        
+    var tagname_parent = this.parentNode.tagName;
+    var selector = "";
+
+    var reg_exp_headlines = new RegExp("(h|H)[0-9]");
+
+    // similar selector for headlines is the tagname itself
+    if ( reg_exp_headlines.test(tagname))     
+        parent.document.getElementById('scraping-selector').innerText = tagname;    
+    else if ( reg_exp_headlines.test(tagname_parent) )            
+        parent.document.getElementById('scraping-selector').innerText = tagname_parent;            
+    else 
+    {
+        // 3 cases:
+        // 1. element has an id
+        // 2. element has identifiable parent nodes 
+        // 3. element has no identifiable parent nodes.
+        if ( element_has_id(this) )
+            retparent.document.getElementById('scraping-selector').innerText = this.id;
+                    
+        var parent_node = this.parentNode; 
+        while ( parent_node.tagName !== "BODY" ) 
+        {
+            while ( parent_node.classList.length < 1 && !element_has_id(parent_node) ) 
+            {    
+                parent_node = parent_node.parentNode;            
+            }
+
+            if (parent_node.tagName === "BODY")
+                return selector;
+
+            if (parent_node.id !== "")            
+                selector = "#" + parent_node.id + selector;            
+            else if ( parent_node.classList.length > 0 && parent_node.classList[0] !== "scrapable-element" )            
+                selector = " ." + parent_node.classList[0] +  selector;
+            else
+            {
+                selector = " " + parent_node.tagName +  selector;
+            }         
+            parent_node = parent_node.parentNode               
+        }                 
+        
+        if (this.classList.length > 0 && this.classList[0] !== "scrapable-element")
+            parent.document.getElementById('scraping-selector').innerText = selector + ' .' + this.classList[0]            
+        else
+            parent.document.getElementById('scraping-selector').innerText = selector + ' ' + this.tagName            
+    }
+    e.stopPropagation();
+}
+
+
+/**
+ * checks if the given element has an id
+ * @param {*} el a HTML element
+ * Return true if element has id otherwise false
+ */
+function element_has_id(el)
+{
+    return el.id !== '';
 }
 
 
@@ -218,8 +294,7 @@ function traverseDOM( el ) {
             } else {
                 cur.classList.toggle('scrapable-element');                
                 cur.addEventListener('mouseover', addMouseover );                
-                cur.addEventListener('mouseout', addMouseout );                
-                cur.addEventListener('click', getXpath );
+                cur.addEventListener('mouseout', addMouseout );                                
                 cur.addEventListener('click', simCrawl );
                 traverseDOM( cur );
             }
@@ -236,8 +311,7 @@ function traverse() {
     for ( var i = 0; i < scrapableElements.length; i++ ) {
         scrapableElements[i].classList.toggle('scrapable-element');                
         scrapableElements[i].removeEventListener('mouseover', addMouseover );                
-        scrapableElements[i].removeEventListener('mouseout', addMouseout );                
-        scrapableElements[i].removeEventListener('click', getXpath );
+        scrapableElements[i].removeEventListener('mouseout', addMouseout );                        
         scrapableElements[i].removeEventListener('click', simCrawl );
     }
 }
