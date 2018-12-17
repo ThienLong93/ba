@@ -16,11 +16,7 @@ class ScrapingSpider(scrapy.Spider):
         self.start_urls         = [self.url]
         self.allowed_domains    = [self.domain]        
 
-    rules = (Rule(LxmlLinkExtractor(allow=()), callback='parse', follow=True),)
-    
-    #custom_settings = {                    
-    #        'FEED_URI' : 's3://ba-s3/scrapy_results/%(pid)s.json'
-    #}
+    rules = (Rule(LxmlLinkExtractor(allow=()), callback='parse', follow=True),)    
 
     def parse(self, response):                
         il = ItemLoader( item=URLText(), response=response )

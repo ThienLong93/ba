@@ -34,7 +34,8 @@ injected_js     = (
     """        
         (function(d, script) {
             // set host url to body
-            document.body.setAttribute('host', d.domain);                        
+            document.body.setAttribute('host', d.domain);
+            document.body.setAttribute('path', d.location.pathname);
 
             // create a turn-on/turn-off crawl button
             var div = document.createElement('div');

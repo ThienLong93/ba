@@ -53,6 +53,12 @@ Links.convertLinksToAbsolute = function(p_linktype) {
     
     var d_host = document.body.getAttribute("host");
     console.log("Hostname of target: " + d_host);     
+    var d_path = document.body.getAttribute("path")
+    console.log("Pathname of target: " + d_path);
+    var path_ar = d_path.split('/');
+    for (var i = 0; i < path_ar.length; i++)
+        console.log(path_ar[i]);
+
 
     // determine type of links
     

@@ -8,108 +8,6 @@ function replaceWord(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
 
-// XPATH Class
-var Xpath = {};
-
-// ********************************************************************************************* //
-// XPATH
-
-/**
-* Gets an XPath for an element which describes its hierarchical location.
-* by https://gist.github.com/nfeldman/10792041
-*/
-Xpath.getElementXPath = function(element)
-{
-    if (element && element.id)
-        return '//*[@id="' + element.id + '"]';
-    else
-        return Xpath.getXElementTreeXPath(element);
-};
-
-
-Xpath.getElementTreeXPath = function(element)
-{
-    var paths = [];
-
-    // Use nodeName (instead of localName) so namespace prefix is included (if any).
-    for (; element && element.nodeType == Node.ELEMENT_NODE; element = element.parentNode)
-    {
-        var index = 0;
-        var hasFollowingSiblings = false;
-        for (var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling)
-        {
-            // Ignore document type declaration.
-            if (sibling.nodeType == Node.DOCUMENT_TYPE_NODE)
-                continue;
-
-            if (sibling.nodeName == element.nodeName)
-                ++index;
-        }
-
-        for (var sibling = element.nextSibling; sibling && !hasFollowingSiblings;
-            sibling = sibling.nextSibling)
-        {
-            if (sibling.nodeName == element.nodeName)
-                hasFollowingSiblings = true;
-        }
-
-        var tagName = (element.prefix ? element.prefix + ":" : "") + element.localName;
-        var pathIndex = (index || hasFollowingSiblings ? "[" + (index + 1) + "]" : "");
-        paths.splice(0, 0, tagName + pathIndex);
-    }
-
-    return paths.length ? "/" + paths.join("/") : null;
-};  
-    
-
-Xpath.getXElementTreeXPath = function( element ) {
-    var paths = [];
-
-    // Use nodeName (instead of localName) so namespace prefix is included (if any).
-    for ( ; element && element.nodeType == Node.ELEMENT_NODE; element = element.parentNode )  {
-        var index = 0;
-
-        for ( var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling ) {
-            // Ignore document type declaration.
-            if ( sibling.nodeType == Node.DOCUMENT_TYPE_NODE ) {
-                continue;
-            }
-
-            if ( sibling.nodeName == element.nodeName ) {
-                    ++index;
-            }
-        }
-
-        var tagName = element.nodeName.toLowerCase();
-
-        // *always* include the sibling index
-        var pathIndex = "[" + (index+1) + "]";
-
-        paths.unshift( tagName + pathIndex );
-    }
-
-    return paths.length ? "/" + paths.join( "/") : null;
-};
-
-var Css = {};
-
-Css.getCssSelector = function(el){
-    if (!(el instanceof Element)) return;
-    var path = [];
-    while (el.nodeType === Node.ELEMENT_NODE) {
-        var selector = el.nodeName.toLowerCase();
-        if (el.id) {
-            selector += '#' + el.id;
-        } else {
-            var sib = el, nth = 1;
-            while (sib.nodeType === Node.ELEMENT_NODE && (sib = sib.previousSibling) && nth++);
-            selector += ":nth-child("+nth+")";
-        }
-        path.unshift(selector);
-        el = el.parentNode;
-    }
-    return path.join(" > ");
-}
 
 // ********************************************************************************************* //
 
@@ -128,49 +26,24 @@ function isIgnoredDOMNode( el ) {
             ? true : false;
 }
 
+
+/**
+ * add blue border over hovered elements
+ * @param {*} e 
+ */
 var addMouseover = function(e) {    
     this.style.border = "3px solid rgba(0,200,255,.5)";
     e.stopPropagation();
 }
 
+
+/**
+ * remove blue border when moving out of hovered elements
+ * @param {*} e 
+ */
 var addMouseout = function(e) {    
     this.style.border = '';
     e.stopPropagation();    
-}
-
-
-/**
- * get xpath of the clicked element as well as innertext, domain und url
- * @param {*} e 
- */
-var getXpath = function(e) {        
-    e.preventDefault();
-    var xpathCur = Xpath.getElementXPath( this );
-    var url      = document.body.getAttribute('host');
-    var crawltext = this.innerText;
-    if (crawltext !== "") {    
-        parent.document.getElementById('scraping-element').innerText = this.innerText;
-        parent.document.getElementById('scrapyBTN').removeAttribute("disabled");        
-    }
-    else {
-        parent.document.getElementById('scraping-element').innerText = "No text available for crawling";        
-        parent.document.getElementById('scrapyBTN').setAttribute("disabled", "disabled");        
-    }        
-    parent.document.getElementById('scraping-selector').innerText = xpathCur;    
-    parent.document.getElementById('scraping-url').innerText = url;
-    parent.document.getElementById('scraping-host').innerText = document.body.getAttribute("host");
-    e.stopPropagation();
-}
-
-
-/**
- * get xpath of element 
- * @param {*} e 
- */
-var xpathCrawl = function(e) {
-    e.preventDefault();
-    var xpathCur = Xpath.getElementXPath( this );
-    parent.document.getElementById('scraping-selector').innerText = xpathCur;    
 }
 
 
