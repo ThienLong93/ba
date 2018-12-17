@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('6#rs5-ygu5c!)&*e7wo0_%8r@@%)!_@myay-8n#j^=c4xtf2%l')
+SECRET_KEY = '6#rs5-ygu5c!)&*e7wo0_%8r@@%)!_@myay-8n#j^=c4xtf2%l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -140,7 +140,7 @@ MAIN_DIR_TEMPLATES = os.path.join(MAIN_DIR, 'templates', 'main')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # CHANNELS
 #ASGI_APPLICATION = "iScraper.routing.application"
