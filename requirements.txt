@@ -44,7 +44,7 @@ queuelib==1.5.0
 redis==2.10.6
 requests==2.18.4
 s3transfer==0.1.13
-Scrapy==1.5.0
+Scrapy==1.8.1
 scrapy-heroku==0.7.1
 scrapyd==1.2.0
 scrapyd-client==1.2.0a1
