@@ -8,7 +8,7 @@ autobahn==18.5.2
 Automat==0.6.0
 boto3==1.7.28
 botocore==1.10.30
-certifi==2018.4.16
+certifi==2022.12.7
 cffi==1.11.5
 channels==2.1.1
 channels-redis==2.2.1
